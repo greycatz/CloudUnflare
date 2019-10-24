@@ -28,6 +28,7 @@ apt-get install curl dnsutils whois -y
 
 ## Installation:
 - Clone this repo
+
 ```git clone https://github.com/greycatz/CloudUnflare.git```
 
 ## Command:

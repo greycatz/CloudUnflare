@@ -48,13 +48,11 @@ function Dig() {
 	echo " INFO: Checking ${D}"
 	for DMN in $(dig +short ${D} | grep '[.]'$ | sed 's/[.]$//g' | sort -V | uniq)
 	do
-		echo "${D},${DMN}" >> cuf-domain.tmp
 		echo "   + CNAME: ${DMN}"
 	done
 	for IP in $(dig +short ${D} | grep [0-9]$ | sort -V | uniq)
 	do
 		VENDOR=$(curl -s "https://rdap.arin.net/registry/ip/${IP}" -H 'User-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 KHTML, like Gecko) Chrome/77.0.3865.120 Mobile Safari/537.36' --compressed | sed 's/",/\n/g' | grep '"name"' | sed 's/://g' | sed 's/"//g' | awk '{print $2}')
-		echo "${D},${IP},${VENDOR}" >> cuf-ipaddr.tmp
 		echo "   + ${IP} [${VENDOR}]"
 	done
 }
@@ -106,6 +104,8 @@ function CompleteDNS() {
 	fi
 	if [[ -f completedns.tmp ]]; then
 		rm completedns.tmp
+	elif [[ -f cookie.txt ]]; then
+		rm cookie.txt
 	fi
 }
 

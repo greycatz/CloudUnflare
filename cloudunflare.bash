@@ -1,7 +1,7 @@
 #!/bin/bash
 # CloudUnflare
 
-CompleteDNS_Login='email@mail.com|password' # Please register first in completedns.com
+CompleteDNS_Login='email@mail.com|password'
 
 if [[ -z $(command -v dig) ]]; then
 	echo " ERROR: \"dig\" command not found"
@@ -17,7 +17,7 @@ fi
 echo '       __                          '
 echo '    __(  )_       CLOUDFLARE       '
 echo ' __(       )_   RECONNAISSANCE     '
-echo '(____________)__ _  V 0.1          '
+echo '(____________)__ _  V 0.2          '
 echo ' _   _ _ __  / _| | __ _ _ __ ___  '
 echo '| | | | `_ \| |_| |/ _` | `__/ _ \ '
 echo '| |_| | | | |  _| | (_| | | |  __/ '
@@ -84,7 +84,7 @@ function CompleteDNS() {
 	TOKEN=$(curl -s --cookie-jar cookie.txt https://completedns.com/login | grep '_csrf_token' | sed 's/value="/\nToken /g' | grep ^Token | sed 's/"//g' | awk '{print $2}')
 	if [[ ! -z $(curl -skL --cookie cookie.txt --cookie-jar cookie.txt 'https://completedns.com/login_check' --data "_csrf_token=${TOKEN}&_username=${EMAIL}&_password=${PASS}&submitButton=" | grep 'Invalid credentials.') ]]; then
 		echo " ERROR: CompleteDNS cannot login"
-		exit
+		return 1
 	fi
 	if [[ -f completedns.tmp ]]; then
 		rm completedns.tmp

@@ -119,9 +119,9 @@ function ViewDNS() {
 	curl -s "https://viewdns.info/iphistory/?domain=${DMN}" -H 'user-agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Mobile Safari/537.36' --compressed &>> viewdns.tmp
 	COUNT=$(cat viewdns.tmp | sed ':a;N;$!ba;s/\n/ /g' | sed 's/<table border="1">/\nIPHISTORY/g' | sed 's/<\/table>/\n/g' | grep ^IPHISTORY | sed 's/<tr><td>/\n/g' | sed 's/\r//' | grep ^[0-9] | sed 's/<\/td><td>/|/g' | sed 's/<\/td><td align="center">/|/g' | sed 's/<\/td><\/tr>//g' | awk -F '|' '{print "   + "$4" | "$1" | "$3"("$2")"}' | sort -V | wc -l);
 	if [[ ${COUNT} -lt 1 ]]; then
-		echo " ERROR: No IP History data in ViewDNS.com"
+		echo " ERROR: No IP History data in ViewDNS.info"
 	else
-		echo " INFO: IP History by ViewDNS.com"
+		echo " INFO: IP History by ViewDNS.info"
 		cat viewdns.tmp | sed ':a;N;$!ba;s/\n/ /g' | sed 's/<table border="1">/\nIPHISTORY/g' | sed 's/<\/table>/\n/g' | grep ^IPHISTORY | sed 's/<tr><td>/\n/g' | sed 's/\r//' | grep ^[0-9] | sed 's/<\/td><td>/|/g' | sed 's/<\/td><td align="center">/|/g' | sed 's/<\/td><\/tr>//g' | awk -F '|' '{print "   + "$4" | "$1" | "$3"("$2")"}' | sort -V
 	fi
 	rm viewdns.tmp

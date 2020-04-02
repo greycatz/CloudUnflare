@@ -89,7 +89,7 @@ function CompleteDNS() {
 	if [[ -f completedns.tmp ]]; then
 		rm completedns.tmp
 	fi
-	curl -s --cookie cookie.txt https://completedns.com/dns-history/ajax/?domain=${DMN} &>> completedns.tmp
+	curl -s --cookie cookie.txt https://completedns.com/dns-history/ajax/?domain=${DMN} >> completedns.tmp 2>&1
 	echo " INFO: NS History by CompleteDNS.com"
 	i=0
 	IFS=$'\n'
@@ -116,7 +116,7 @@ function ViewDNS() {
 	if [[ -f viewdns.tmp ]]; then
 		rm viewdns.tmp
 	fi
-	curl -s "https://viewdns.info/iphistory/?domain=${DMN}" -H 'user-agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Mobile Safari/537.36' --compressed &>> viewdns.tmp
+	curl -s "https://viewdns.info/iphistory/?domain=${DMN}" -H 'user-agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 Mobile Safari/537.36' --compressed >> viewdns.tmp 2>&1
 	COUNT=$(cat viewdns.tmp | sed ':a;N;$!ba;s/\n/ /g' | sed 's/<table border="1">/\nIPHISTORY/g' | sed 's/<\/table>/\n/g' | grep ^IPHISTORY | sed 's/<tr><td>/\n/g' | sed 's/\r//' | grep ^[0-9] | sed 's/<\/td><td>/|/g' | sed 's/<\/td><td align="center">/|/g' | sed 's/<\/td><\/tr>//g' | awk -F '|' '{print "   + "$4" | "$1" | "$3"("$2")"}' | sort -V | wc -l);
 	if [[ ${COUNT} -lt 1 ]]; then
 		echo " ERROR: No IP History data in ViewDNS.info"

@@ -37,6 +37,8 @@ m
 mail
 mail1
 mail2
+mc
+minecraft
 mx
 mx1
 news
@@ -44,9 +46,14 @@ ns
 ns1
 ns2
 owa
+panel
+play
 pop
 pop3
 portal
+ptero
+pterodactyl
+pve
 remote
 secure
 server
@@ -58,10 +65,12 @@ support
 test
 ticket
 ticketing
+vm
 vpn
 vps
 web
 webmail
+www
 ww1
 ww42
 www2
